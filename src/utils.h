@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <time.h>
 
-#define DEBUG 0
+#define DEBUG 1
 #define LOG(...)\
 if (DEBUG) {\
     fprintf(stderr, __VA_ARGS__);\

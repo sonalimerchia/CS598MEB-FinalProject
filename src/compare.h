@@ -12,7 +12,6 @@
 #define CN3 2
 
 typedef struct task {
-    int type;
     cn_profile_t* p1; 
     cn_profile_t* p2;
     int16_t* dest;
@@ -25,9 +24,7 @@ void parse_args(int argc, char** argv, char**, char**);
 
 void* worker_routine(void* arg);
 
-void generate_tasks(cn_profile_data_t*, 
-    int16_t** cnt, int16_t** zcnt, int16_t** cn3,
-    time_t* cnt_t, time_t* zcnt_t, time_t* cn3_t);
+void generate_tasks(cn_profile_data_t*, int16_t** distances, time_t* times);
 size_t calculate_num_tasks(cn_profile_data_t* data);
 size_t calculate_num_zcnt_jobs(cn_profile_data_t* data);
 size_t calculate_num_cnt_jobs(cn_profile_data_t* data);
