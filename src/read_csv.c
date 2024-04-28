@@ -70,6 +70,7 @@ cn_profile_data_t* read_cn_profiles(char* filepath) {
             data->profiles[node][l] = copy_number;
             ++i;
         }
+        data->B = max(data->B, copy_number);
     }
     LOG("[read_cn_profiles]: Read %zu copy numbers", i)
     return data;

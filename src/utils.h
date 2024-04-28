@@ -27,7 +27,13 @@ void save_time_data(time_t* times, const char* output_prefix, const char* filena
 
 char* concatenate_filename(const char* prefix, const char* suffix);
 int16_t max(int16_t a, int16_t b);
+loci_t umax(loci_t a, loci_t b);
+int16_t inf_max(int16_t a, int16_t b);
+loci_t array_max(cn_profile_t arr, size_t len);
 int16_t min(int16_t a, int16_t b);
+loci_t umin(loci_t a, loci_t b);
+int16_t inf_min(int16_t a, int16_t b);
+int16_t unsigned_sub(loci_t a, loci_t b);
 int64_t timespecDiff(struct timespec *timeA_p, struct timespec *timeB_p);
 
 #endif // _UTILS_H_

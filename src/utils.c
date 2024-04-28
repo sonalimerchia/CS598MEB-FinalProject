@@ -101,12 +101,68 @@ int16_t max(int16_t a, int16_t b) {
     return b;
 }
 
+loci_t umax(loci_t a, loci_t b) {
+    if (a > b) {
+        return a;
+    }
+
+    return b;
+}
+
+int16_t inf_max(int16_t a, int16_t b) {
+    if (a == -1 || b == -1) {
+        return -1;
+    } else if (a > b) {
+        return a;
+    }
+
+    return b;
+}
+
+loci_t array_max(cn_profile_t arr, size_t len) {
+    loci_t max = 0; 
+    for (size_t i = 0; i < len; ++i) {
+        if (arr[i] > max) {
+            max = arr[i];
+        }
+    }    
+
+    return max;
+}
+
 int16_t min(int16_t a, int16_t b) {
     if (a < b) {
         return a;
     }
 
     return b;
+}
+
+loci_t umin(loci_t a, loci_t b) {
+    if (a < b) {
+        return a;
+    }
+
+    return b;
+}
+
+int16_t inf_min(int16_t a, int16_t b) {
+    if (a == -1) {
+        return b;
+    } else if (b == -1) {
+        return a;
+    } else if (a < b) {
+        return a;
+    } 
+    return b;
+}
+
+int16_t unsigned_sub(loci_t a, loci_t b) {
+    if (a <= b) {
+        return 0;
+    }
+
+    return (int16_t)(a) - (int16_t)(b);
 }
 
 char* concatenate_filename(const char* prefix, const char* suffix) {

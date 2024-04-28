@@ -10,9 +10,10 @@
 #include "cn_profile.h"
 #include "zcnt.h"
 #include "cnt.h"
+#include "cn3.h"
 #include "utils.h"
 
-const size_t NUM_WORKERS = 1;
+const size_t NUM_WORKERS = 20;
 
 int main(int argc, char** argv) {
     // Parse arguments
@@ -32,13 +33,16 @@ int main(int argc, char** argv) {
     LOG("[main]: Creating result storage (%p)", data);
     int16_t** zcnt_distances = make_distance_matrix(data->num_cells);
     int16_t** cnt_distances = make_distance_matrix(data->num_cells);
+    int16_t** cn3_distances = make_distance_matrix(data->num_cells);
     size_t num_zcnt_jobs = calculate_num_zcnt_jobs(data);
     size_t num_cnt_jobs = calculate_num_cnt_jobs(data);
+    size_t num_cn3_jobs = calculate_num_cn3_jobs(data);
     time_t* zcnt_times = calloc(num_zcnt_jobs, sizeof(time_t));
     time_t* cnt_times = calloc(num_cnt_jobs, sizeof(time_t));
+    time_t* cn3_times = calloc(num_cn3_jobs, sizeof(time_t));
 
     data->queue = queue_init(NUM_WORKERS);
-    generate_tasks(data, cnt_distances, zcnt_distances, cnt_times, zcnt_times);
+    generate_tasks(data, cnt_distances, zcnt_distances, cn3_distances, cnt_times, zcnt_times, cn3_times);
     LOG("[main]: Generated tasks");
 
     // Generate threads
@@ -57,14 +61,17 @@ int main(int argc, char** argv) {
 
     save_distance_matrix(zcnt_distances, output_prefix, "ZCNT-DIST", data->num_cells);
     save_distance_matrix(cnt_distances, output_prefix, "CNT-DIST", data->num_cells);
+    save_distance_matrix(cn3_distances, output_prefix, "CN3-DIST", data->num_cells);
     LOG("[main]: Saved distance data");
 
     save_time_data(zcnt_times, output_prefix, "ZCNT-TIMES", num_zcnt_jobs);
     save_time_data(cnt_times, output_prefix, "CNT-TIMES", num_cnt_jobs);
+    save_time_data(cn3_times, output_prefix, "CN3-TIMES", num_cn3_jobs);
     LOG("[main]: Saved time data");
 
     destroy_distance_matrix(zcnt_distances, data->num_cells);
     destroy_distance_matrix(cnt_distances, data->num_cells);
+    destroy_distance_matrix(cn3_distances, data->num_cells);
     queue_destroy(data->queue);
     destroy_cp_profiles(data);
 
@@ -72,6 +79,8 @@ int main(int argc, char** argv) {
     zcnt_times = NULL;
     free(cnt_times);
     cnt_times = NULL;
+    free(cn3_times);
+    cn3_times = NULL;
     free(input_file);
     input_file = NULL;
     free(output_prefix);
@@ -111,12 +120,15 @@ void* worker_routine(void* arg) {
         struct timespec start, end;
         int16_t dist = 0;
         clock_gettime(CLOCK_MONOTONIC, &start);
-        if (task->is_zcnt) {
+        if (task->type == ZCNT) {
             // ZCNT Distance
             dist = zcnt_distance(task->p1, task->p2, data->num_loci);
-        } else {
+        } else if (task->type == CNT) {
             // CNT Distance
             dist = cnt_distance(task->p1, task->p2, data->num_loci);
+        } else {
+            // CN3 Distance
+            dist = cn3_distance(task->p1, task->p2, data->B, data->num_loci);
         }
         clock_gettime(CLOCK_MONOTONIC, &end);
 
@@ -141,12 +153,15 @@ void* worker_routine(void* arg) {
     return NULL;
 }
 
-void generate_tasks(cn_profile_data_t* data, int16_t** cnt, int16_t** zcnt, time_t* cnt_times, time_t* zcnt_times) {
+void generate_tasks(cn_profile_data_t* data, 
+    int16_t** cnt, int16_t** zcnt, int16_t** cn3,
+    time_t* cnt_times, time_t* zcnt_times, time_t* cn3_times) {
     size_t num_tasks = calculate_num_tasks(data);
 
     LOG("[generate_tasks]: goal tasks %zu", num_tasks);
     size_t zcnt_ct = 0;
     size_t cnt_ct = 0;
+    size_t cn3_ct = 0;
 
     for (size_t i = 0; i < data->num_cells; ++i) {
         for (size_t j = 0; j < data->num_cells; ++j) {
@@ -155,7 +170,7 @@ void generate_tasks(cn_profile_data_t* data, int16_t** cnt, int16_t** zcnt, time
                 LOG("[generate_tasks]: ZCNT pair (%zu, %zu)", i, j);
                 task_t* task = calloc(1, sizeof(task_t));
                 *task = (task_t){
-                    .is_zcnt = true,
+                    .type = ZCNT,
                     .p1 = data->profiles + i,
                     .p2 = data->profiles + j,
                     .dest = (int16_t*)(zcnt[i]) + j,
@@ -172,7 +187,7 @@ void generate_tasks(cn_profile_data_t* data, int16_t** cnt, int16_t** zcnt, time
                 LOG("[generate_tasks]: CNT pair (%zu, %zu)", i, j);
                 task_t* task = calloc(1, sizeof(task_t));
                 *task = (task_t){
-                    .is_zcnt = false,
+                    .type = CNT,
                     .p1 = data->profiles + i, 
                     .p2 = data->profiles + j, 
                     .dest = (int16_t*)(cnt[i]) + j,
@@ -181,11 +196,24 @@ void generate_tasks(cn_profile_data_t* data, int16_t** cnt, int16_t** zcnt, time
                 };
                 queue_push(data->queue, task, destroy_task);
                 ++cnt_ct;
+
+                LOG("[generate_tasks]: CN3 pair (%zu, %zu)", i, j);
+                task = calloc(1, sizeof(task_t));
+                *task = (task_t){
+                    .type = CN3,
+                    .p1 = data->profiles + i, 
+                    .p2 = data->profiles + j, 
+                    .dest = (int16_t*)(cn3[i]) + j,
+                    .dest2 = (int16_t*)(cn3[j]) + i,
+                    .elapsed = cn3_times + cn3_ct,
+                };
+                queue_push(data->queue, task, destroy_task);
+                ++cn3_ct;
             }
         }
     }
 
-    LOG("[generate_tasks]: Generated %zu out of %zu tasks", cnt_ct + zcnt_ct, num_tasks);
+    LOG("[generate_tasks]: Generated %zu out of %zu tasks", cnt_ct + zcnt_ct + cn3_ct, num_tasks);
 }
 
 size_t calculate_num_tasks(cn_profile_data_t* data) {
@@ -197,6 +225,10 @@ size_t calculate_num_zcnt_jobs(cn_profile_data_t* data) {
 }
 
 size_t calculate_num_cnt_jobs(cn_profile_data_t* data) {
+    return data->num_cells * (data->num_cells - 1);
+}
+
+size_t calculate_num_cn3_jobs(cn_profile_data_t* data) {
     return data->num_cells * (data->num_cells - 1);
 }
 

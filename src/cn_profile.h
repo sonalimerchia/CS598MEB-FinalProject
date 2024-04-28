@@ -7,6 +7,7 @@
 typedef struct cn_profile_data {
     size_t num_cells;
     size_t num_loci;
+    loci_t B;
     queue_t* queue;
     cn_profile_t* profiles;
 } cn_profile_data_t;
