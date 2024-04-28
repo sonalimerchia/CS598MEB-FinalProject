@@ -5,7 +5,7 @@
 
 #include "utils.h"
 
-double cnt_distance(cn_profile_t* p1, cn_profile_t* p2, size_t num_loci);
+int16_t cnt_distance(cn_profile_t* p1, cn_profile_t* p2, size_t num_loci);
 
 cn_profile_t make_augmented_profile(cn_profile_t* P, size_t num_loci);
 

@@ -28,18 +28,19 @@ cn_profile_data_t* read_cn_profiles(char* filepath) {
     num_cells *= 2;
     LOG("[read_cn_profiles]: Read %d Parameters: num_cells=(%zu), num_loci=(%zu)", num_found, num_cells, num_loci);
     if (num_found < 2 || !num_cells || !num_loci) {
+        PRINT("File name not in expected format. Expected n{num_cells/2}_l{num_loci}_s{rand_seed}_full_cn_profiles.csv");
         return NULL;
     }
 
     FILE* csv_file = fopen(filepath, "r");
     if (!csv_file) {
-        LOG("[read_cn_profiles]: Error opening csv file: %s", filepath);
+        PRINT("Error opening csv file: %s", filepath);
         return NULL;
     }
 
     bool valid = verify_headers(csv_file);
     if (!valid) {
-        PRINT("[read_cn_profiles]: Invalid headers of data file. Expecting [node,chrom,start,end,cn_a]");
+        PRINT("Invalid headers of data file. Expecting [node,chrom,start,end,cn_a]");
         return NULL;
     }
 
@@ -60,7 +61,7 @@ cn_profile_data_t* read_cn_profiles(char* filepath) {
 
         // LOG("(%zu)(%zu)(%zu)(%zu)(%zu)", node, chrom, start, end, copy_number);
         if (chrom != 1) {
-            LOG("[read_cn_profiles]: NOT CURRENTLY SET UP FOR MULTIPLE CHROMOSOMES! ABORT!"); 
+            LOG("NOT CURRENTLY SET UP FOR MULTIPLE CHROMOSOMES! ABORT!"); 
             destroy_cp_profiles(data); 
             return NULL;
         }
