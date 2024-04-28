@@ -18,45 +18,53 @@ int main(int argc, char** argv) {
         PRINT("Incorrect Usage: ./main [data.csv]");
     }
 
-    LOG("[main] CSV_FILE: %s", argv[1]);
+    LOG("[main]: CSV_FILE: %s", argv[1]);
     cn_profile_data_t* data = read_cn_profiles(argv[1]);
-    LOG("[main] READ DATA (%p)", data);
 
-    // Generate worker-queue infrastructure
+    // Generate places to store final data
+    LOG("[main]: Creating result storage (%p)", data);
     int16_t** zcnt_distances = make_distance_matrix(data->num_cells);
     int16_t** cnt_distances = make_distance_matrix(data->num_cells);
-
     size_t num_zcnt_jobs = calculate_num_zcnt_jobs(data);
     size_t num_cnt_jobs = calculate_num_cnt_jobs(data);
     time_t* zcnt_times = calloc(num_zcnt_jobs, sizeof(time_t));
     time_t* cnt_times = calloc(num_cnt_jobs, sizeof(time_t));
 
     data->queue = queue_init(NUM_WORKERS);
-    LOG("[main] GENERATED QUEUE");
-
     generate_tasks(data, cnt_distances, zcnt_distances, cnt_times, zcnt_times);
-    LOG("[main] GENERATED TASKS");
+    LOG("[main]: Generated tasks");
 
     // Generate threads
     pthread_t threads[NUM_WORKERS];
-    
     // Create threads
     for (size_t i = 0; i < NUM_WORKERS; ++i) {
         pthread_create(&threads[i], NULL, worker_routine, data);
     }
+    LOG("[main]: Spun up worker threads");
 
     // Finish threads
     for (size_t i = 0; i < NUM_WORKERS; ++i) {
         pthread_join(threads[i], NULL);
     }
+    LOG("[main]: Closed worker threads");
 
     save_distance_matrix(zcnt_distances, "ZCNT-DIST", data->num_cells);
     save_distance_matrix(cnt_distances, "CNT-DIST", data->num_cells);
+    LOG("[main]: Saved distance data");
 
     save_time_data(zcnt_times, "ZCNT-TIMES", num_zcnt_jobs);
     save_time_data(cnt_times, "CNT-TIMES", num_cnt_jobs);
+    LOG("[main]: Saved time data");
 
+    destroy_distance_matrix(zcnt_distances, data->num_cells);
+    destroy_distance_matrix(cnt_distances, data->num_cells);
+    queue_destroy(data->queue);
     destroy_cp_profiles(data);
+
+    free(zcnt_times);
+    zcnt_times = NULL;
+    free(cnt_times);
+    cnt_times = NULL;
 
     return 0;
 }

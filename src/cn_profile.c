@@ -26,4 +26,7 @@ void destroy_cp_profiles(cn_profile_data_t* data) {
 
     free(data->profiles);
     data->profiles = NULL;
+
+    free(data);
+    data = NULL;
 }

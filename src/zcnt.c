@@ -14,6 +14,11 @@ int16_t zcnt_distance(cn_profile_t* p1, cn_profile_t* p2, size_t num_loci) {
     }
     sum /= 2;
 
+    free(d1);
+    d1 = NULL;
+    free(d2);
+    d2 = NULL;
+
     return sum;
 }
 

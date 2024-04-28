@@ -20,6 +20,7 @@ typedef u_int16_t loci_t;
 typedef loci_t* cn_profile_t;
 
 int16_t** make_distance_matrix(size_t num_cells);
+void destroy_distance_matrix(int16_t** dist, size_t num_cells);
 void save_distance_matrix(int16_t** dist, const char* filename, size_t num_cells);
 
 void save_time_data(time_t* times, const char* filename, size_t num_times);

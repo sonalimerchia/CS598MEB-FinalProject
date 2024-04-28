@@ -41,6 +41,16 @@ void save_distance_matrix(int16_t** dist, const char* filename, size_t num_cells
     }
 }
 
+void destroy_distance_matrix(int16_t** dist, size_t num_cells) {
+    for (size_t i = 0; i < num_cells; ++i) {
+        free(dist[i]);
+        dist[i] = NULL;
+    }
+
+    free(dist);
+    dist = NULL;
+}
+
 void save_time_data(time_t* times, const char* filename, size_t num_times) {
     LOG("[save_time_data]: Saving time data to %s", filename);
 

@@ -92,4 +92,7 @@ void queue_destroy(queue_t* q) {
         free(prev);
         prev = NULL;
     }
+
+    free(q);
+    q = NULL;
 }
