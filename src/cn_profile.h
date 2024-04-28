@@ -2,10 +2,12 @@
 #define _CP_PROFILE_H_
 
 #include "utils.h"
+#include "queue.h"
 
 typedef struct cn_profile_data {
     size_t num_cells;
     size_t num_loci;
+    queue_t* queue;
     cn_profile_t* profiles;
 } cn_profile_data_t;
 
