@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <errno.h>
 #include <time.h>
+#include <string.h>
 
 #include "utils.h"
 
@@ -15,13 +16,16 @@ int16_t** make_distance_matrix(size_t num_cells) {
     return matrix; 
 }
 
-void save_distance_matrix(int16_t** dist, const char* filename, size_t num_cells) {
-    LOG("[save_distance_matrix]: Saving distance matrix to %s", filename);
+void save_distance_matrix(int16_t** dist, const char* output_prefix, const char* filename, size_t num_cells) {
+    char* filepath = concatenate_filename(output_prefix, filename);
+    LOG("[save_distance_matrix]: Saving distance matrix to %s", filepath);
 
     // Open destination file
-    FILE* file = fopen(filename, "w");
+    FILE* file = fopen(filepath, "w");
     if (!file) {
         perror("[save_distance_matrix]:");
+        free(filepath);
+        filepath = NULL;
         return;
     }
 
@@ -37,8 +41,11 @@ void save_distance_matrix(int16_t** dist, const char* filename, size_t num_cells
     // Close file
     int err = fclose(file);
     if (err) {
-        PRINT("An error occurred while writing distance matrix to %s", filename);
+        PRINT("An error occurred while writing distance matrix to %s", filepath);
     }
+    
+    free(filepath);
+    filepath = NULL;
 }
 
 void destroy_distance_matrix(int16_t** dist, size_t num_cells) {
@@ -51,13 +58,17 @@ void destroy_distance_matrix(int16_t** dist, size_t num_cells) {
     dist = NULL;
 }
 
-void save_time_data(time_t* times, const char* filename, size_t num_times) {
-    LOG("[save_time_data]: Saving time data to %s", filename);
+void save_time_data(time_t* times, const char* output_prefix, const char* filename, size_t num_times) {
+    char* filepath = concatenate_filename(output_prefix, filename);
+    LOG("[save_time_data]: Saving time data to %s", filepath);
 
     // Open destination file
-    FILE* file = fopen(filename, "w");
+    FILE* file = fopen(filepath, "w");
     if (!file) {
         perror("[save_time_data]:");
+
+        free(filepath);
+        filepath = NULL;
         return;
     }
 
@@ -71,6 +82,9 @@ void save_time_data(time_t* times, const char* filename, size_t num_times) {
     if (err) {
         PRINT("An error occurred while writing distance matrix to %s", filename);
     }
+
+    free(filepath);
+    filepath = NULL;
 }
 
 /** From https://stackoverflow.com/a/380446 */
@@ -93,4 +107,15 @@ int16_t min(int16_t a, int16_t b) {
     }
 
     return b;
+}
+
+char* concatenate_filename(const char* prefix, const char* suffix) {
+    size_t p_len = strlen(prefix);
+    size_t s_len = strlen(suffix);
+
+    char* filename = calloc(p_len + s_len + 2, sizeof(char)); 
+    memcpy(filename, prefix, p_len); 
+    filename[p_len] = '-';
+    memcpy(filename + p_len + 1, suffix, s_len);
+    return filename;
 }

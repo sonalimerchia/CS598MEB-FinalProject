@@ -21,10 +21,11 @@ typedef loci_t* cn_profile_t;
 
 int16_t** make_distance_matrix(size_t num_cells);
 void destroy_distance_matrix(int16_t** dist, size_t num_cells);
-void save_distance_matrix(int16_t** dist, const char* filename, size_t num_cells);
 
-void save_time_data(time_t* times, const char* filename, size_t num_times);
+void save_distance_matrix(int16_t** dist, const char* output_prefix, const char* filename, size_t num_cells);
+void save_time_data(time_t* times, const char* output_prefix, const char* filename, size_t num_times);
 
+char* concatenate_filename(const char* prefix, const char* suffix);
 int16_t max(int16_t a, int16_t b);
 int16_t min(int16_t a, int16_t b);
 int64_t timespecDiff(struct timespec *timeA_p, struct timespec *timeB_p);

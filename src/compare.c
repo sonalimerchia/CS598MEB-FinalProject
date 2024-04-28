@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <time.h>
+#include <string.h>
 
 #include "compare.h"
 #include "read_csv.h"
@@ -14,12 +15,18 @@
 const size_t NUM_WORKERS = 1;
 
 int main(int argc, char** argv) {
-    if (argc < 2) {
-        PRINT("Incorrect Usage: ./main [data.csv]");
+    // Parse arguments
+    char* input_file = NULL;
+    char* output_prefix = NULL;
+    parse_args(argc, argv, &input_file, &output_prefix);
+    if (!input_file || !output_prefix) {
+        PRINT("Usage Error: ./compare -f <input_file> -o <output_prefix>");
+        return -1;
     }
 
-    LOG("[main]: CSV_FILE: %s", argv[1]);
-    cn_profile_data_t* data = read_cn_profiles(argv[1]);
+    // Read in data
+    LOG("[main]: CSV_FILE: %s", input_file);
+    cn_profile_data_t* data = read_cn_profiles(input_file);
 
     // Generate places to store final data
     LOG("[main]: Creating result storage (%p)", data);
@@ -48,12 +55,12 @@ int main(int argc, char** argv) {
     }
     LOG("[main]: Closed worker threads");
 
-    save_distance_matrix(zcnt_distances, "ZCNT-DIST", data->num_cells);
-    save_distance_matrix(cnt_distances, "CNT-DIST", data->num_cells);
+    save_distance_matrix(zcnt_distances, output_prefix, "ZCNT-DIST", data->num_cells);
+    save_distance_matrix(cnt_distances, output_prefix, "CNT-DIST", data->num_cells);
     LOG("[main]: Saved distance data");
 
-    save_time_data(zcnt_times, "ZCNT-TIMES", num_zcnt_jobs);
-    save_time_data(cnt_times, "CNT-TIMES", num_cnt_jobs);
+    save_time_data(zcnt_times, output_prefix, "ZCNT-TIMES", num_zcnt_jobs);
+    save_time_data(cnt_times, output_prefix, "CNT-TIMES", num_cnt_jobs);
     LOG("[main]: Saved time data");
 
     destroy_distance_matrix(zcnt_distances, data->num_cells);
@@ -65,8 +72,33 @@ int main(int argc, char** argv) {
     zcnt_times = NULL;
     free(cnt_times);
     cnt_times = NULL;
+    free(input_file);
+    input_file = NULL;
+    free(output_prefix);
+    output_prefix = NULL;
 
     return 0;
+}
+
+void parse_args(int argc, char** argv, char** input_file, char** output_prefix) {
+    int opt; 
+      
+    while((opt = getopt(argc, argv, "f:o:")) != -1) {  
+        switch(opt)  {  
+            case 'f':  
+                LOG("[parse_args]: filename (%s)", optarg);  
+                if (optarg && optarg[0] != '?') {
+                    *(input_file) = strdup(optarg);
+                }
+                break;  
+            case 'o':
+                LOG("[parse_args]: prefix (%s)", optarg);
+                if (optarg && optarg[0] != '?') {
+                    *(output_prefix) = strdup(optarg);
+                }
+                break;
+        }   
+    }
 }
 
 void* worker_routine(void* arg) {
@@ -77,24 +109,24 @@ void* worker_routine(void* arg) {
 
     while (task) {
         struct timespec start, end;
+        int16_t dist = 0;
         clock_gettime(CLOCK_MONOTONIC, &start);
         if (task->is_zcnt) {
             // ZCNT Distance
-            time_t start = time(NULL);
-            int16_t dist = zcnt_distance(task->p1, task->p2, data->num_loci);
-            time_t end = time(NULL);
-            *(task->dest) = dist;
-            *(task->dest2) = dist;
-            *(task->elapsed) = end - start;
+            dist = zcnt_distance(task->p1, task->p2, data->num_loci);
         } else {
             // CNT Distance
-            time_t start = time(NULL);
-            *(task->dest) = cnt_distance(task->p1, task->p2, data->num_loci);
-            time_t end = time(NULL);
-            *(task->elapsed) = end - start;
+            dist = cnt_distance(task->p1, task->p2, data->num_loci);
         }
         clock_gettime(CLOCK_MONOTONIC, &end);
 
+        if (task->dest) {
+            *(task->dest) = dist;
+        }
+
+        if (task->dest2) {
+            *(task->dest2) = dist;
+        }
         *(task->elapsed) = timespecDiff(&end, &start);
 
         destroy_task(task);

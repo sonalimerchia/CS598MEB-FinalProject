@@ -5,6 +5,11 @@
 #include "utils.h"
 #include "cnt.h"
 
+/** According to Ron Shamir, Meirav Zehavi, and Ron Zeira. A Linear-Time Algorithm for the Copy Number Transformation Problem. 
+ * In 27th Annual Symposium on Combinatorial Pattern Matching (CPM 2016). Leibniz International Proceedings in Informatics (LIPIcs), 
+ * Volume 54, pp. 16:1-16:13, Schloss Dagstuhl – Leibniz-Zentrum für Informatik (2016)
+https://doi.org/10.4230/LIPIcs.CPM.2016.16 */
+
 int16_t cnt_distance(cn_profile_t* p1, cn_profile_t* p2, size_t num_loci) {
     if (!is_reachable_cnt(p1, p2, num_loci)) return -1;
 
