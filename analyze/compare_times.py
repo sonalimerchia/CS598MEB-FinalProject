@@ -30,7 +30,7 @@ for filename in os.listdir(directory):
     loci = loci + ([params['loci']] * len(t))
     times = np.hstack((times, t))
     
-boxplot = sns.boxplot(x=loci, y=times, hue=dist, showfliers=False, fill=False, order=["1000", "2000", "3000", "4000"])
+boxplot = sns.boxplot(x=loci, y=times, hue=dist, showfliers=False, fill=False, order=["1000", "2000", "3000", "4000"], hue_order=['ZCNT', 'CNT', 'CN3'])
 boxplot.set(
     xlabel='Loci', 
     ylabel='Log Runtime (ms)',

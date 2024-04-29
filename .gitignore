@@ -3,3 +3,6 @@ obj/
 output_data/
 compare
 *.log
+*.npy
+*.pkl
+*.png
