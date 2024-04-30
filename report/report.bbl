@@ -1,0 +1,33 @@
+\begin{thebibliography}{1}\itemsep=-1pt
+
+\bibitem{lecture_2}
+Mohammed El-Kebir.
+\newblock Lecture 2, cs598meb computational cancer genomics.
+\newblock Oral Presentation, 2024.
+
+\bibitem{triplet_algorithm}
+Mohammed El-Kebir, Benjamin~J. Raphael, Ron Shamir, Roded Sharan, Simone Zaccaria, Meirav Zehavi, and Ron Zeira.
+\newblock Complexity and algorithms for copy-number evolution problems.
+\newblock {\em Algorithms for Molecular Biology}, 12(1):13, 2017.
+
+\bibitem{hallmarks_of_cancer}
+D. Hanahan and R.A. Weinberg.
+\newblock Hallmarks of cancer: The next generation.
+\newblock {\em Cell}, 144(646-674), 2011.
+
+\bibitem{zcnt_paper}
+Henri Schmidt, Palash Sashittal, and Benjamin~J Raphael.
+\newblock A zero-agnostic model for copy number evolution in cancer.
+\newblock {\em bioRxiv}, pages 2023--04, 2023.
+
+\bibitem{cnt_paper}
+Roland~F. Schwarz, Anne Trinh, Botond Sipos, James~D. Brenton, Nick Goldman, and Florian Markowetz.
+\newblock Phylogenetic quantification of intra-tumour heterogeneity.
+\newblock {\em PLOS Computational Biology}, 10(4):1--11, 04 2014.
+
+\bibitem{linear_cnt}
+Ron Shamir, Meirav Zehavi, and Ron Zeira.
+\newblock {A Linear-Time Algorithm for the Copy Number Transformation Problem}.
+\newblock In Roberto Grossi and Moshe Lewenstein, editors, {\em 27th Annual Symposium on Combinatorial Pattern Matching (CPM 2016)}, volume~54 of {\em Leibniz International Proceedings in Informatics (LIPIcs)}, pages 16:1--16:13, Dagstuhl, Germany, 2016. Schloss Dagstuhl -- Leibniz-Zentrum f{\"u}r Informatik.
+
+\end{thebibliography}

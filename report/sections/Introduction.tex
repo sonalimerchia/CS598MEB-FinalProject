@@ -1,0 +1,7 @@
+\section{Introduction}
+
+Reconstructing cancer phylogenies based on copy-number information is widely done using the copy number transformation CNT model. This model splits up chromosomes into geographical regions called loci. It then represents a cell using a vector where each element represents a locus and the value represents the number of copies of that locus in the cell of interest. The model then measures the distance between a pair of copy number profiles as the minimum number of mutations required to convert one state into the other \cite{cnt_paper}. 
+
+While useful and consistent with biological observations, there is no efficient algorithm using CNT to generate parsimonious cancer phylogeneies due to its lack of symmetry. In {\it A zero-agnostic model for copy number evolution in cancer\/}~\cite{zcnt_paper}, a new model ZCNT is proposed that provides a mathematical simplification on the CNT model, allowing for an efficient algorithm to generate cancer phylognies.
+
+ZCNT allows for elements of the copy-number state to drop into the negatives and increase from zero to positive values. This is not possible in CNT because it would represent spontaneous creation of a locus that did not exist previously. This paper will analyze the ZCNT method to determine whether its findings are consistent with biology despite being based on a model inconsistent with biology. 

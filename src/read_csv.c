@@ -46,44 +46,62 @@ cn_profile_data_t* read_cn_profiles(char* filepath) {
 
     cn_profile_data_t* data = initialize_cp_profiles(num_cells, num_loci);
 
-    size_t node = 0;
+    char* node = NULL;
     size_t chrom = 0;
     size_t start = 0;
     size_t end = 0;
-    size_t copy_number = 0;
+    loci_t copy_number = 0;
     size_t i = 0;
+    size_t node_idx = -1; 
+    size_t locus = 0;
     while (!feof(csv_file)) {
-        int num_read = fscanf(csv_file, "%zu,%zu,%zu,%zu,%zu\n", &node, &chrom, &start, &end, &copy_number);
-        if (num_read == 0) {
-            LOG("READ %d", num_read);
+        char* line = NULL;
+        size_t num = 0;
+        getline(&line, &num, csv_file);
+        char* token = strtok(line, ",");
+        LOG("%s", node)
+        if (!node || strcmp(node, token)) {
+            node_idx += 1;
+            locus = 0;
+            free(node);
+            node = strdup(token);
+            LOG("[read_csv]: Reading node %zu (%s)", node_idx, token);
+        } 
+
+        int num_read = 0;
+        token = strtok(NULL, ",");
+        num_read += sscanf(token, "%zu", &chrom);
+        token = strtok(NULL, ",");
+        num_read += sscanf(token, "%zu", &start);
+        token = strtok(NULL, ",");
+        num_read += sscanf(token, "%zu", &end);
+        token = strtok(NULL, ",");
+        num_read += sscanf(token, "%hu", &copy_number);
+
+        if (num_read < 4) {
             continue;
-        }
+        } 
 
-        // LOG("(%zu)(%zu)(%zu)(%zu)(%zu)", node, chrom, start, end, copy_number);
-        if (chrom != 1) {
-            LOG("NOT CURRENTLY SET UP FOR MULTIPLE CHROMOSOMES! ABORT!"); 
-            destroy_cp_profiles(data); 
-            return NULL;
-        }
-
-        for (size_t l = start; l <= end; ++l) {
-            data->profiles[node][l] = copy_number;
-            ++i;
-        }
+        data->profiles[node_idx][locus] = copy_number;
         data->B = max(data->B, copy_number);
+        ++i;
+        ++locus;
+
+        free(line); 
+        line = NULL;
     }
+    free(node);
+    node = NULL; 
+
     LOG("[read_cn_profiles]: Read %zu copy numbers", i)
     return data;
 }
 
 bool verify_headers(FILE* csv_file) {
-    char buf[50];
-    int num_read = fscanf(csv_file, "%49s", buf);
+    char* s = NULL;
+    size_t n = 0;
+    getline(&s, &n, csv_file);
+    free(s);
 
-    if (num_read < 1 || strcmp(buf, "node,chrom,start,end,cn_a")) {
-        return false;
-    }
-
-    LOG("[verify_headers]: Correct headers!");
     return true;
 }

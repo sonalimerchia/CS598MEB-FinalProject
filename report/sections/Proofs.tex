@@ -1,0 +1,54 @@
+\section{Proofs}
+
+ZCNT is a distance metric \cite{zcnt_paper} which means that it satisfies three properties: 
+
+\begin{enumerate}
+    \item {\bf Identity:} $\zcnt (u, u) = 0$
+    \item {\bf Positivity:} if $u \neq v$ then $\zcnt (u, v) > 0$
+    \item {\bf Symmetry:} $\zcnt (u, v) = \zcnt (v, u)$
+    \item {\bf Triangularity:} $\zcnt (u, v) \leq \zcnt (u, w) + \zcnt (w, v)$
+\end{enumerate}
+
+Below we will prove each of these properties mathematically. 
+
+\subsection{Identity}
+
+\begin{align*}
+    \zcnt (u, u) &= \frac{1}{2} || \Delta(u) - \Delta(u) ||_1 \\ 
+    &= \frac{1}{2} || \mathbf 0 ||_1 \\ 
+    &= \frac{1}{2} (0) \\ 
+    \zcnt (u, u) &= 0 
+\end{align*}
+
+\subsection{Positivity}
+
+The proof of positivity is based on the principle that the L1 norm of any nonzero vector will be greater than 0. Since $\Delta$ is a bijective function \cite{zcnt_paper}, if $u \neq v$, then $\Delta(u) \neq \Delta(v)$ so $\Delta(u) - \Delta(v) \neq \mathbf 0$. Therefore we get the following implication: if $u \neq v$, then $0 < ||\Delta(u) - \Delta(v)||_1$. Additionally since L1 norms are always non-negative, if $0 < ||\Delta(u) - \Delta(v)||_1$, then $0 < 0.5*||\Delta(u) - \Delta(v)||_1$. From this we get a string of implications to show that: 
+
+\vspace{10pt}
+
+if $u \neq v$, then $0 < ||\Delta(u) - \Delta(v)||_1 = \zcnt(u, v)$ and $0 < \zcnt(u, v)$, satisfying positivity. 
+
+\vspace{10pt}
+
+\subsection{Symmetry}
+
+\begin{align*}
+    \zcnt (u, v) &= \frac{1}{2} || \Delta(u) - \Delta(v) ||_1 \\ 
+    &= \frac{1}{2} || -(\Delta(u) - \Delta(v)) ||_1 \\
+    &= \frac{1}{2} ||  \Delta(v) - \Delta(u) ||_1 \\ 
+    \zcnt (u, v) &= \zcnt(v, u)
+\end{align*}
+
+\subsection{Triangularity} 
+
+Let $\mathbf x = (\Delta(u) - \Delta(w))$ and $\mathbf y = (\Delta(w) - \Delta(v))$. From this we get: 
+
+\begin{align*}
+    ||\mathbf x||_1 &= ||\Delta(u) - \Delta(w)||_1 \\ 
+    ||\mathbf y||_1 &= ||\Delta(w) - \Delta(v)||_1 \\ 
+    ||\mathbf x + \mathbf y||_1 &= ||\Delta(u) - \Delta(w) + \Delta(w) - \Delta(v)||_1 \\ 
+    &= ||\Delta(u) - \Delta(v)||_1
+\end{align*} 
+
+Since L1 is a norm, we know $||\mathbf x + \mathbf y|| \leq ||\mathbf x|| + ||\mathbf y||$. Therefore $||\Delta(u) - \Delta(v)||_1 \leq ||\Delta(u) - \Delta(w)||_1 + ||\Delta(w) - \Delta(v)||_1$. Substituting in the distance formula, we get $2*\zcnt(u, v) \leq 2 [\zcnt(u, w) + \zcnt(w, v)]$ so $\zcnt(u, v) \leq \zcnt(u, w) + \zcnt(w, v)$, satisfying the triangular inequality. 
+
