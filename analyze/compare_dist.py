@@ -39,8 +39,10 @@ key_m = []
 
 for cells_loci in data: 
     keys = data[cells_loci].keys()
-    if 'CN3' not in data[cells_loci]: 
+    if len(keys) != 3: 
         continue
+
+    mask = np.where(data[cells_loci]["CNT"] != np.inf)
 
     for di in keys:
         for dj in keys: 
@@ -53,7 +55,6 @@ for cells_loci in data:
             sum = data[cells_loci][di] + data[cells_loci][dj]
             sum[sum == 0.0] = 1
                 
-            mask = np.where(sum != np.inf)
             err = diff[mask] / sum[mask]
 
                 # if key not in errs: 
@@ -85,4 +86,16 @@ boxplot.set(
 )
 # boxplot.legend().set_title("Methods")
 fig = boxplot.get_figure()
-fig.savefig("dist_fig.png") 
+fig.savefig("dist_fig_hist.png") 
+plt.clf()
+
+boxplot = sns.boxplot(y=errs, x=key_m, hue=key_m, showfliers=False)
+boxplot.set(
+    xlabel='Distance Algorithm Pairing', 
+    ylabel='Error',
+    title='Distance Algorithm Comparision (Outliers Excluded)'
+)
+# boxplot.legend().set_title("Methods")
+fig = boxplot.get_figure()
+plt.legend().remove()
+fig.savefig("dist_fig_boxplot.png") 

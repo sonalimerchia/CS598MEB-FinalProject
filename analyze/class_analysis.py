@@ -6,6 +6,7 @@ import numpy as np
 from parse import parse
 from tqdm import tqdm
 import pickle
+import matplotlib.pyplot as plt
 
 from utils import read_dist_matrix
 
@@ -13,7 +14,7 @@ directory = sys.argv[1]
 
 def plot_data(dists, labels): 
     print("Plotting...")
-    histplot = sns.histplot(x=dists, hue=labels, stat='density', bins=20)
+    histplot = sns.histplot(x=dists, hue=labels, stat='density', bins=20, element='step')
     histplot.set(
         xlabel='Distance', 
         ylabel='Density',
@@ -21,7 +22,19 @@ def plot_data(dists, labels):
     )
     print("Plotted")
     fig = histplot.get_figure()
-    fig.savefig("classes.png") 
+    fig.savefig("classes_hist.png") 
+    plt.clf()
+
+    histplot = sns.boxplot(y=dists, hue=labels, x=labels, showfliers=False)
+    histplot.set(
+        xlabel='Class', 
+        ylabel='Density',
+        title='Class Distance Comparision (Outliers Excluded)'
+    )
+    plt.legend().remove()
+    print("Plotted")
+    fig = histplot.get_figure()
+    fig.savefig("classes_box.png") 
 
 if directory.endswith(".pkl"): 
     data = None

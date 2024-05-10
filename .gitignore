@@ -1,8 +1,15 @@
 .vscode/
 obj/
 output_data/
+real_data/
 compare
 *.log
 *.npy
 *.pkl
 *.png
+*.gz 
+*.fls 
+*.fdb_latexmk
+*.brf 
+*.aux
+*.bbl

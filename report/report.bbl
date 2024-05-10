@@ -30,4 +30,9 @@ Ron Shamir, Meirav Zehavi, and Ron Zeira.
 \newblock {A Linear-Time Algorithm for the Copy Number Transformation Problem}.
 \newblock In Roberto Grossi and Moshe Lewenstein, editors, {\em 27th Annual Symposium on Combinatorial Pattern Matching (CPM 2016)}, volume~54 of {\em Leibniz International Proceedings in Informatics (LIPIcs)}, pages 16:1--16:13, Dagstuhl, Germany, 2016. Schloss Dagstuhl -- Leibniz-Zentrum f{\"u}r Informatik.
 
+\bibitem{mutations_rare}
+I~P Tomlinson, M~R Novelli, and W~F Bodmer.
+\newblock The mutation rate and cancer.
+\newblock {\em Proc Natl Acad Sci U S A}, 93(25):14800--14803, Dec. 1996.
+
 \end{thebibliography}

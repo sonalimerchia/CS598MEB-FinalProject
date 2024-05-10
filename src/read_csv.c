@@ -20,14 +20,20 @@ cn_profile_data_t* read_cn_profiles(char* filepath) {
 
     size_t num_cells = 0;
     size_t num_loci = 0;
+    size_t num_chrom = 1;
     int num_found = sscanf(filename, "n%zu_l%zu_s%*zu_full_cn_profiles.csv", &num_cells, &num_loci);
 
     free(filepath_c); 
     filepath_c = NULL; 
-
     num_cells *= 2;
+
     LOG("[read_cn_profiles]: Read %d Parameters: num_cells=(%zu), num_loci=(%zu)", num_found, num_cells, num_loci);
-    if (num_found < 2 || !num_cells || !num_loci) {
+    if (num_found < 2) {
+        LOG("Real data detected, defaulting to new setup.");
+        num_cells = 10;
+        num_chrom = 22;
+        num_loci = 38;
+    } else if (num_found < 2 || !num_cells || !num_loci) {
         PRINT("File name not in expected format. Expected n{num_cells/2}_l{num_loci}_s{rand_seed}_full_cn_profiles.csv");
         return NULL;
     }
@@ -44,9 +50,10 @@ cn_profile_data_t* read_cn_profiles(char* filepath) {
         return NULL;
     }
 
-    cn_profile_data_t* data = initialize_cp_profiles(num_cells, num_loci);
+    cn_profile_data_t* data = initialize_cp_profiles(num_cells, num_chrom, num_loci);
 
     char* node = NULL;
+    size_t old_chrom = 1;
     size_t chrom = 0;
     size_t start = 0;
     size_t end = 0;
@@ -58,11 +65,18 @@ cn_profile_data_t* read_cn_profiles(char* filepath) {
         char* line = NULL;
         size_t num = 0;
         getline(&line, &num, csv_file);
+        if (strlen(line) == 0) {
+            free(line);
+            line = NULL;
+            break;
+        }
         char* token = strtok(line, ",");
-        LOG("%s", node)
         if (!node || strcmp(node, token)) {
+            LOG("Switching node...")
             node_idx += 1;
             locus = 0;
+            old_chrom = 1;
+            chrom = 0;
             free(node);
             node = strdup(token);
             LOG("[read_csv]: Reading node %zu (%s)", node_idx, token);
@@ -78,11 +92,17 @@ cn_profile_data_t* read_cn_profiles(char* filepath) {
         token = strtok(NULL, ",");
         num_read += sscanf(token, "%hu", &copy_number);
 
+        if (chrom != old_chrom) {
+            locus = 0;
+            old_chrom = chrom;
+        }
+
         if (num_read < 4) {
             continue;
         } 
 
-        data->profiles[node_idx][locus] = copy_number;
+        data->profiles[node_idx][chrom - 1][locus] = copy_number;
+
         data->B = max(data->B, copy_number);
         ++i;
         ++locus;

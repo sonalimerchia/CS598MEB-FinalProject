@@ -64,6 +64,9 @@ def plot():
     ie_stack = []
     id_stack = []
 
+    ie_maxes = []
+    id_maxes= []
+
     for c in sorted(ie.keys()): 
         for l in ie[c]:
             # key = format("{} Cells, {} Loci")
@@ -72,10 +75,10 @@ def plot():
             ie_stack = ie_stack + ie[c][l]
             id_stack = id_stack + id[c][l]
 
-            print(c)
+    print("No illegal descendents in: ", len(id_stack) - np.count_nonzero(id_stack), "of", len(id_stack))
+    print("No illegal edges in: ", len(ie_stack) - np.count_nonzero(ie_stack), len(ie_stack))
 
-
-    boxplot = sns.boxplot(x=loci, y=ie_stack, hue=cells, showfliers=False, fill=False, order=["1000", "2000", "3000", "4000"])
+    boxplot = sns.boxplot(x=loci, y=ie_stack, hue=cells, fill=False, order=["1000", "2000", "3000", "4000"])
     boxplot.set(
         xlabel='Loci', 
         ylabel='Percent of Edges',
@@ -86,7 +89,7 @@ def plot():
     fig.savefig("illegal_edges.png") 
     plt.clf()
 
-    boxplot = sns.boxplot(x=loci, y=id_stack, hue=cells, showfliers=False, fill=False, order=["1000", "2000", "3000", "4000"])
+    boxplot = sns.boxplot(x=loci, y=id_stack, hue=cells, fill=False, order=["1000", "2000", "3000", "4000"])
     boxplot.set(
         xlabel='Loci', 
         ylabel='Percent of AD pairs',
@@ -95,9 +98,24 @@ def plot():
     plt.legend().set_title("Num Cells")
     fig = boxplot.get_figure()
     fig.savefig("illegal_desc.png") 
-    
+    plt.clf()
+
+    ie_stack = np.sort(ie_stack)
+    cumulative_ie = np.arange(1, len(ie_stack) + 1) / len(ie_stack) * 100
+
+    id_stack = np.sort(id_stack)
+    cumulative_id = np.arange(1, len(id_stack) + 1) / len(id_stack) * 100
+
+    plt.title("Cumulative Illegality")
+    plt.xlabel("Percent of Edges Matching Criteria")
+    plt.ylabel("Cumulative Percent of Trees")
+    plt.plot(ie_stack, cumulative_ie, label="% of Illegal Edges")
+    plt.plot(id_stack, cumulative_id, label="% of Illegal AD Relations")
+    plt.legend().set_title("Criteria")
+    plt.savefig("cumulative_plot.png")
 
 if directory.endswith('.pkl'): 
+
     plot()
     exit(0)
 

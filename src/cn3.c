@@ -8,8 +8,9 @@ int16_t cn3_distance(cn_profile_t* p1, cn_profile_t* p2, loci_t e, size_t num_lo
     LOG("[cn3_distance]: e=%hu", e);
     size_t n = num_loci;
 
-    cn_profile_t u = *p1;
-    cn_profile_t v = *p2;
+    chrom_t u = (*p1)[0];
+    chrom_t v = (*p2)[0];
+
     loci_t B = umax(array_max(u, n), array_max(v, n));
     LOG("CN3 n=%zu, B=%hu", num_loci, B);
 
@@ -59,7 +60,7 @@ size_t idx(loci_t B, size_t i, loci_t m, loci_t du, loci_t au, loci_t dv, loci_t
     return i * B5 + m * B4 + du * B3 + au * B2 + dv * B1 + av;
 }
 
-int16_t solve_subproblem(int16_t* L, loci_t B, cn_profile_t u, cn_profile_t v, size_t i, loci_t m, loci_t du, loci_t au, loci_t dv, loci_t av) {
+int16_t solve_subproblem(int16_t* L, loci_t B, chrom_t u, chrom_t v, size_t i, loci_t m, loci_t du, loci_t au, loci_t dv, loci_t av) {
     int16_t mi = m;
     int16_t ui = u[i];
     int16_t vi = v[i];

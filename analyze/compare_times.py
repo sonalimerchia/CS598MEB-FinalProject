@@ -3,6 +3,7 @@ import os
 import seaborn as sns 
 import numpy as np
 from parse import parse
+from tqdm import tqdm
 
 dist = []
 loci = []
@@ -10,7 +11,7 @@ times = np.array([], dtype=np.float64)
 
 directory = sys.argv[1]
 
-for filename in os.listdir(directory): 
+for filename in tqdm(os.listdir(directory)): 
     if not filename.endswith("TIMES"): 
         continue
     with open(directory + "/" + filename, 'r') as file:
@@ -30,6 +31,7 @@ for filename in os.listdir(directory):
     loci = loci + ([params['loci']] * len(t))
     times = np.hstack((times, t))
     
+sns.set_theme(rc={'figure.figsize':(7, 10)})
 boxplot = sns.boxplot(x=loci, y=times, hue=dist, showfliers=False, fill=False, order=["1000", "2000", "3000", "4000"], hue_order=['ZCNT', 'CNT', 'CN3'])
 boxplot.set(
     xlabel='Loci', 

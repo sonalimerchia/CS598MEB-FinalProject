@@ -17,7 +17,8 @@ if (DEBUG) {\
 }
 
 typedef u_int16_t loci_t;
-typedef loci_t* cn_profile_t;
+typedef loci_t* chrom_t;
+typedef chrom_t* cn_profile_t;
 
 int16_t** make_distance_matrix(size_t num_cells);
 void destroy_distance_matrix(int16_t** dist, size_t num_cells);
@@ -29,7 +30,7 @@ char* concatenate_filename(const char* prefix, const char* suffix);
 int16_t max(int16_t a, int16_t b);
 loci_t umax(loci_t a, loci_t b);
 int16_t inf_max(int16_t a, int16_t b);
-loci_t array_max(cn_profile_t arr, size_t len);
+loci_t array_max(chrom_t arr, size_t len);
 int16_t min(int16_t a, int16_t b);
 loci_t umin(loci_t a, loci_t b);
 int16_t inf_min(int16_t a, int16_t b);

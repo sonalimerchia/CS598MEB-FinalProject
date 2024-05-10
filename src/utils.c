@@ -119,7 +119,7 @@ int16_t inf_max(int16_t a, int16_t b) {
     return b;
 }
 
-loci_t array_max(cn_profile_t arr, size_t len) {
+loci_t array_max(chrom_t arr, size_t len) {
     loci_t max = 0; 
     for (size_t i = 0; i < len; ++i) {
         if (arr[i] > max) {

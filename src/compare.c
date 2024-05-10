@@ -142,13 +142,16 @@ void* worker_routine(void* arg) {
         clock_gettime(CLOCK_MONOTONIC, &start);
         if (mode == ZCNT) {
             // ZCNT Distance
-            dist = zcnt_distance(task->p1, task->p2, data->num_loci);
+            dist = zcnt_distance(task->p1, task->p2, data->num_chrom, data->num_loci);
         } else if (mode == CNT) {
             // CNT Distance
-            dist = cnt_distance(task->p1, task->p2, data->num_loci);
-        } else if (mode == CN3) {
+            dist = cnt_distance(task->p1, task->p2, data->num_chrom, data->num_loci);
+        } else if (mode == CN3 && data->num_chrom == 1) {
             // CN3 Distance
             dist = cn3_distance(task->p1, task->p2, data->B, data->num_loci);
+        } else {
+            PRINT("CN3 Distance not set up for multi-chromosomal data");
+            exit(1);
         }
         clock_gettime(CLOCK_MONOTONIC, &end);
 

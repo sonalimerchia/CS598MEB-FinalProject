@@ -1,10 +1,11 @@
+% chktex-file 8
 \section{Proofs}
 
-ZCNT is a distance metric \cite{zcnt_paper} which means that it satisfies three properties: 
+ZCNT is proposed as a distance metric~\cite{zcnt_paper}. In order to be a distance metric, ZCNT must satisfy the four following properties: 
 
 \begin{enumerate}
     \item {\bf Identity:} $\zcnt (u, u) = 0$
-    \item {\bf Positivity:} if $u \neq v$ then $\zcnt (u, v) > 0$
+    \item {\bf Positivity:} if $u \neq v$ then $0 < \zcnt (u, v)$
     \item {\bf Symmetry:} $\zcnt (u, v) = \zcnt (v, u)$
     \item {\bf Triangularity:} $\zcnt (u, v) \leq \zcnt (u, w) + \zcnt (w, v)$
 \end{enumerate}
@@ -13,42 +14,120 @@ Below we will prove each of these properties mathematically.
 
 \subsection{Identity}
 
+The identity property can be mathematically obtained without any additional lemmas. 
+
+\begin{theorem}
+    Let $u$ be some arbitrary copy-number profile under the ZCNT model. 
+    
+    Then $\zcnt (u, u) = 0$
+\end{theorem}
+
+\noindent {\bf Proof:}
 \begin{align*}
-    \zcnt (u, u) &= \frac{1}{2} || \Delta(u) - \Delta(u) ||_1 \\ 
-    &= \frac{1}{2} || \mathbf 0 ||_1 \\ 
-    &= \frac{1}{2} (0) \\ 
-    \zcnt (u, u) &= 0 
+    \textbf{Statement} & & \textbf{Explanation} \\
+    \cline{1-3}
+    \zcnt (u, u) &= \frac{1}{2} || \Delta(u) - \Delta(u) ||_1  & \text{Equation~\ref{eq:1}}\\ 
+    &= \frac{1}{2} || \mathbf 0 ||_1 &\text{Subtract}\\ 
+    &= \frac{1}{2} (0) &\text{Simplify} \\ 
+    \zcnt (u, u) &= 0 &\text{Simplify}
 \end{align*}
 
 \subsection{Positivity}
 
-The proof of positivity is based on the principle that the L1 norm of any nonzero vector will be greater than 0. Since $\Delta$ is a bijective function \cite{zcnt_paper}, if $u \neq v$, then $\Delta(u) \neq \Delta(v)$ so $\Delta(u) - \Delta(v) \neq \mathbf 0$. Therefore we get the following implication: if $u \neq v$, then $0 < ||\Delta(u) - \Delta(v)||_1$. Additionally since L1 norms are always non-negative, if $0 < ||\Delta(u) - \Delta(v)||_1$, then $0 < 0.5*||\Delta(u) - \Delta(v)||_1$. From this we get a string of implications to show that: 
+\begin{theorem}
+    Let $u$ and $v$ be some arbitrary copy-number profiles under the ZCNT model. 
+    
+    Then $u \neq v \implies 0 < \zcnt (u, v)$.
+\end{theorem}
 
-\vspace{10pt}
 
-if $u \neq v$, then $0 < ||\Delta(u) - \Delta(v)||_1 = \zcnt(u, v)$ and $0 < \zcnt(u, v)$, satisfying positivity. 
+\noindent {\bf Proof:}
 
-\vspace{10pt}
+The proof of positivity is based on the principle that the L1 norm is a distance metric. Therefore by the positivity property, the L1 norm of any nonzero vector will be greater than $0$. We can write this formally as:
+\begin{lemma}\label{lemma:l1_positivity}
+    Let $u$ and $v$ be some arbitrary vector in $\mathbb{R}^n$. 
+    
+    Then $u \neq v \implies 0 < ||u - v||_1$.
+\end{lemma}
 
-\subsection{Symmetry}
+Since $\Delta$ is a bijective function~\cite{zcnt_paper}, we know that every input has a unique output. We also know that every output has a unique input. Therefore if $u \neq v$, then the delta mappings will be different. We can write this formally as: 
+
+\begin{lemma}\label{lemma:delta_bijection}
+    Let $u$ and $v$ be some copy number profiles under the ZCNT model. Let $\Delta(\cdot)$ be the function to convert a copy number profile to its respective delta mapping. 
+    
+    Then $u \neq v \iff \Delta(u) \neq \Delta(v)$
+\end{lemma}
+
+Using these properties, we can write the following proof for the positivity property of ZCNT
 
 \begin{align*}
-    \zcnt (u, v) &= \frac{1}{2} || \Delta(u) - \Delta(v) ||_1 \\ 
-    &= \frac{1}{2} || -(\Delta(u) - \Delta(v)) ||_1 \\
-    &= \frac{1}{2} ||  \Delta(v) - \Delta(u) ||_1 \\ 
-    \zcnt (u, v) &= \zcnt(v, u)
+    \textbf{Statement} & & \textbf{Explanation} \\
+    \cline{1-3} \\
+    u \neq v &\implies \Delta(u) \neq \Delta(v) & \text{Lemma}~\ref{lemma:delta_bijection} \\ 
+    & \implies \Delta(u) - \Delta(v) \neq 0 & \text{Subtraction}\\
+    & \implies 0 < ||\Delta(u) - \Delta(v)||_1 & \text{Lemma}~\ref{lemma:l1_positivity} \\
+    & \implies 0 < \frac{1}{2}||\Delta(u) - \Delta(v)||_1 & \text{Multiply} \\
+    u \neq v & \implies 0 < \zcnt (u, v) & \text{Equation}~\ref{eq:1}
+\end{align*}
+
+\subsection{Symmetry}
+\begin{theorem}
+    Let $u$ and $v$ be some arbitrary copy-number profiles under the ZCNT model. 
+    
+    Then $\zcnt (u, v) = \zcnt (v, u)$
+\end{theorem}
+
+\noindent {\bf Proof:}
+
+\begin{corollary}\label{corollary:abs_val}
+    $\forall x \in \mathbb{R}$, $|x| = |-x|$ by absolute value definition
+\end{corollary}
+
+\begin{align*}
+    \textbf{Statement} & & \textbf{Explanation} \\
+    \cline{1-3} \\
+    \zcnt (u, v) &= \frac{1}{2} || \Delta(u) - \Delta(v) ||_1 & \text{Equation}~\ref{eq:1} \\ 
+    &= \frac{1}{2} || -(\Delta(u) - \Delta(v)) ||_1 & \text{Corollary}~\ref{corollary:abs_val} \\
+    &= \frac{1}{2} ||  \Delta(v) - \Delta(u) ||_1 & \text{Multiply}\\ 
+    \zcnt (u, v) &= \zcnt(v, u) & \text{Equation}~\ref{eq:1}
 \end{align*}
 
 \subsection{Triangularity} 
 
+\begin{theorem}
+    Let $u$ and $v$ be some arbitrary copy number profiles under the ZCNT model. 
+
+    Then for all copy number profiles $w$, 
+    
+    $\zcnt (u, v) \leq \zcnt (u, w) + \zcnt (w, v)$
+\end{theorem}
+
+\noindent {\bf Proof:}
+
 Let $\mathbf x = (\Delta(u) - \Delta(w))$ and $\mathbf y = (\Delta(w) - \Delta(v))$. From this we get: 
 
+\begin{alignb}\label{eq:substitutions}
+    ||\mathbf{x}||_1 &= ||\Delta(u) - \Delta(w)||_1 \\ 
+    &=2 \times\zcnt(u, w) \\
+    ||\mathbf{y}||_1 &= ||\Delta(w) - \Delta(v)||_1 \\ 
+    &=2 \times\zcnt(w, v) \\
+    ||\mathbf{x} + \mathbf{y}||_1 &= ||\Delta(u) - \Delta(w) + \Delta(w) - \Delta(v)||_1 \\ 
+    &= ||\Delta(u) - \Delta(v)||_1 \\ 
+    &= 2 \times\zcnt(u, v)
+\end{alignb} 
+
+Since L1 is a distance metric we can write its triangularity property formally as follows: 
+
+\begin{lemma}\label{lemma:l1_triangular}
+    $\forall x, y \in \mathbb{R}^n, ||\mathbf x + \mathbf y||_1 \leq ||\mathbf x||_1 + ||\mathbf y||_1$
+\end{lemma}
+
+Using these two equations, we can formally prove the triangularity property of ZCNT as follows: 
+
 \begin{align*}
-    ||\mathbf x||_1 &= ||\Delta(u) - \Delta(w)||_1 \\ 
-    ||\mathbf y||_1 &= ||\Delta(w) - \Delta(v)||_1 \\ 
-    ||\mathbf x + \mathbf y||_1 &= ||\Delta(u) - \Delta(w) + \Delta(w) - \Delta(v)||_1 \\ 
-    &= ||\Delta(u) - \Delta(v)||_1
-\end{align*} 
-
-Since L1 is a norm, we know $||\mathbf x + \mathbf y|| \leq ||\mathbf x|| + ||\mathbf y||$. Therefore $||\Delta(u) - \Delta(v)||_1 \leq ||\Delta(u) - \Delta(w)||_1 + ||\Delta(w) - \Delta(v)||_1$. Substituting in the distance formula, we get $2*\zcnt(u, v) \leq 2 [\zcnt(u, w) + \zcnt(w, v)]$ so $\zcnt(u, v) \leq \zcnt(u, w) + \zcnt(w, v)$, satisfying the triangular inequality. 
-
+    \textbf{Statement} & & \textbf{Explanation} \\
+    \cline{1-3} \\
+    ||\mathbf x + \mathbf y||_1 & \leq ||\mathbf x||_1 + ||\mathbf y||_1 & \text{Lemma}~\ref{lemma:lemma:l1_triangular} \\ 
+    2 \times \zcnt(u, v) & \leq 2[\zcnt(u, w) + \zcnt(w, v)] & \text{Substitutions~\ref{eq:substitutions}} \\ 
+    \zcnt(u, v) &\leq \zcnt(u, w) + \zcnt(w, v) & \text{Divide}
+\end{align*}

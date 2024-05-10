@@ -1,9 +1,46 @@
 \section{Methods}
-Finally I would like to implement both Lazac and another parsimony method that uses CNT. The paper lists improvements when solving both the small and large parsimony problems. Then I would like to compare the performance of ZCNT and CNT based models on simulated data so I have ground truth solutions to assess performance. 
+Since ZCNT is a metric that is meant to emulate CNT, the question of behavior across symmetry exists. CNT is not a symmetric property and doesn't always exist. If ZCNT typically approximates CNT, how does it behave when the corresponding CNT distance does not exist? Does it trend towards $+\infty$ when $\cnt(u, v) = \infty$ or is there another behavior?
 
-The points of interest in this paper are: 
+\vspace{10pt}
+
+\noindent The points of interest in this paper are: 
+
 \begin{enumerate}
-    \item How well does ZCNT replicate CNT? How well does it replicate CN3?
+    \item How well does ZCNT replicate CNT\@? How well does it replicate CN3?
     \item How does ZCNT behave when the corresponding CNT does not exist?
-    \item How is 
+    \item How often do reachability issues show up in simulated data? 
+    \item How often do reachability issues show up in real data? 
+    \item Does ZCNT more closesly mimic median distance or mean correction?
 \end{enumerate}
+
+\subsection{Comparing ZCNT and CNT}\label{section:comp_dist}
+
+In order to compare ZCNT and CNT distances, pairwise distances were generated for simulated data. The data was the same simulated data from the original ZCNT paper~\cite{zcnt_paper}. There were three kinds of distances generated for every simulation pair: ZCNT, CNT, and CN3. 
+
+The distances were filtered so we only considered the distances where CNT for that pairing was not $+\infty$. Since both ZCNT and CN3 always exist at a noninfinite value, this was the only filter. Then the relative error was calculated for each distance pairing (all combinations of ZCNT, CNT, and CN3). 
+
+\subsection{Behavior of ZCNT when CNT is infinite}\label{section:behavior}
+
+In order to determine ZCNT behavior when CNT is infinite, the same simulated distances in Section~\ref{section:comp_dist} were used to classify copy-number pairings into three classes: 
+
+
+{\bf Class 1:} $\cnt(u, v)$ and $\cnt(v, u)$ both exist
+
+{\bf Class 2:} $\cnt(u, v)$ exists but $\cnt(v, u)$ does not 
+
+{\bf Class 3:} Neither $\cnt(u, v)$ nor $\cnt(v, u)$ exist 
+
+Then an analysis was done based on the distribution of the corresponding ZCNT distances. 
+
+
+\subsection{Reachability in Simulated Data}\label{section:simulated_reachability}
+The same simulated data from the prior two sections was put through Lazac, a ZCNT Large Parsimony algorithm~\cite{zcnt_paper}. Then, using the calculated pairwise distances in CNT and ZCNT, two statistics were taken: 
+
+\begin{enumerate}
+    \item The percentage of edges in the overall tree represent biologically infeasible transformations.
+    \item The percentage of ancestor-descendant relationships that were biologically infeasible.
+\end{enumerate}
+
+We define ``biologically infeasible'' transformations to be transformations wherein a copy-number goes from zero to a positive number. These can easily be determined by calculating the CNT distances. If the CNT distance between two nodes is $\infty$, the transformation is biologically infeasible. 
+
+For ancestor-descendant relationships between an ancestor $u$ and a descendant $v$, the pairing is considered illegal if and only if an edge drawn straight between them would be biologically infeasible.

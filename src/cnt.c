@@ -10,19 +10,28 @@
  * Volume 54, pp. 16:1-16:13, Schloss Dagstuhl – Leibniz-Zentrum für Informatik (2016)
 https://doi.org/10.4230/LIPIcs.CPM.2016.16 */
 
-int16_t cnt_distance(cn_profile_t* p1, cn_profile_t* p2, size_t num_loci) {
-    if (!is_reachable_cnt(p1, p2, num_loci)) return -1;
+int16_t cnt_distance(cn_profile_t* p1, cn_profile_t* p2, size_t num_chrom, size_t num_loci) {
+    if (!is_reachable_cnt(p1, p2, num_chrom, num_loci)) return -1;
 
     cn_profile_t S = *p1;
     cn_profile_t T = *p2;
 
+    int16_t total = 0; 
+    for (size_t j = 0; j < num_chrom; ++j) {
+        total += cnt_chrom_distance(S[j], T[j], num_loci);
+    }
+
+    return total;
+}
+
+int16_t cnt_chrom_distance(chrom_t S, chrom_t T, size_t num_loci) {
     if (T[0] == 0 || T[num_loci - 1] == 0) {
         // Augment S and T
-        cn_profile_t S_a = make_augmented_profile(p1, num_loci);
-        cn_profile_t T_a = make_augmented_profile(p2, num_loci);
+        chrom_t S_a = make_augmented_profile(S, num_loci);
+        chrom_t T_a = make_augmented_profile(T, num_loci);
 
         // Get equivalent distance
-        int16_t dist = cnt_distance(&S_a, &T_a, num_loci + 2);
+        int16_t dist = cnt_chrom_distance(S_a, T_a, num_loci + 2);
 
         // Free memory
         free(S_a);
@@ -99,20 +108,22 @@ int16_t cnt_distance(cn_profile_t* p1, cn_profile_t* p2, size_t num_loci) {
     return base_j;
 }
 
-cn_profile_t make_augmented_profile(cn_profile_t* P, size_t num_loci) {
+chrom_t make_augmented_profile(chrom_t P, size_t num_loci) {
     loci_t* P_a = calloc(num_loci + 2, sizeof(loci_t));
     memcpy(P_a + 1, P, num_loci * sizeof(loci_t));
     P_a[0] = 1;
     P_a[num_loci + 1] = 1;
-    return (cn_profile_t)P_a;
+    return (chrom_t)P_a;
 }
 
-bool is_reachable_cnt(cn_profile_t* p1, cn_profile_t* p2, size_t num_loci) {
+bool is_reachable_cnt(cn_profile_t* p1, cn_profile_t* p2, size_t num_chrom, size_t num_loci) {
     cn_profile_t S = *p1;
     cn_profile_t T = *p2;
-    for (size_t i = 0; i < num_loci; ++i) {
-        if (S[i] == 0 && T[i] > 0) return false;
-    } 
+    for (size_t j = 0; j < num_chrom; ++j) {
+        for (size_t i = 0; i < num_loci; ++i) {
+            if (S[j][i] == 0 && T[j][i] > 0) return false;
+        } 
+    }
 
     return true;
 }
