@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex report"] 1715378393 "report.aux" "report.bbl" "report" 1715378395 0
+["bibtex report"] 1715379537 "report.aux" "report.bbl" "report" 1715379540 0
   "./ieee_fullname.bst" 1714424736 19905 72b73f4cb1c51eaa1a7af8ecad2b6bfb ""
   "./ref_manual.bib" 1715240565 9223 033ca371b7330de738dc6251ccd22c34 ""
-  "report.aux" 1715378394 24351 b242062e76ff6fd356438b5d24782b56 "pdflatex"
+  "report.aux" 1715379539 24279 c1a0d854797bc5df8627131a46c1dcf1 "pdflatex"
   (generated)
   "report.bbl"
   "report.blg"
   (rewritten before read)
-["pdflatex"] 1715378393 "/Users/sonalimerchia/Desktop/CS598proj/report/report.tex" "report.pdf" "report" 1715378395 0
+["pdflatex"] 1715379537 "/Users/sonalimerchia/Desktop/CS598proj/report/report.tex" "report.pdf" "report" 1715379540 0
   "/Users/sonalimerchia/Desktop/CS598proj/report/report.tex" 1715376823 2065 ff4d4ab668697ac2fbac804097dd20a7 ""
   "/opt/local/etc/texmf/texmf.cnf" 1693017085 38796 a06f0de93a3269f707ca47a2c5ce78e5 ""
   "/opt/local/share/texmf-texlive/fonts/enc/dvips/base/8r.enc" 1556757300 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
@@ -161,16 +161,16 @@
   "figures/sym_fig_boxplot.png" 1715374656 25688 3bafcb69619dcf1a7a0019219988efd0 ""
   "figures/sym_fig_hist.png" 1715377482 23154 5e6494be71d4ed506c0dff09631cac42 ""
   "figures/time_fig.png" 1714414826 22793 45d524c040cd86a91ebd833c1bcc60c3 ""
-  "report.aux" 1715378394 24351 b242062e76ff6fd356438b5d24782b56 "pdflatex"
-  "report.bbl" 1715378393 2422 9916688d04c26850326d7bd26c42f10e "bibtex report"
-  "report.brf" 1715378394 797 676fcae0ec13e9eca0c5a4116267931f "pdflatex"
+  "report.aux" 1715379539 24279 c1a0d854797bc5df8627131a46c1dcf1 "pdflatex"
+  "report.bbl" 1715379537 2422 9916688d04c26850326d7bd26c42f10e "bibtex report"
+  "report.brf" 1715379539 797 676fcae0ec13e9eca0c5a4116267931f "pdflatex"
   "report.tex" 1715376823 2065 ff4d4ab668697ac2fbac804097dd20a7 ""
-  "sections/Background.tex" 1715377951 8503 27fbe1055d6c15220d0f41e439f80c3c ""
-  "sections/Discussion.tex" 1715378390 2473 a05918ee0d4246da64f07422b97ab81e ""
-  "sections/Introduction.tex" 1715289716 1721 d83228132fe77281e5a451a45b9fc782 ""
-  "sections/Methods.tex" 1715377925 4067 18dd1f2433867450a1c209104356a8bd ""
+  "sections/Background.tex" 1715378946 8521 070afd8c14546719dae61368e06755bf ""
+  "sections/Discussion.tex" 1715379066 2472 f7c8f9d1db582c65ede134df77292eae ""
+  "sections/Introduction.tex" 1715379111 1725 137f2a2cd6847e5b270c3174f86deb69 ""
+  "sections/Methods.tex" 1715379190 4065 3e6ca2a71e31d97bcab0488226ff43b6 ""
   "sections/Proofs.tex" 1715365500 5113 8d558f59b522d60e62ab70aa39fd1d28 ""
-  "sections/Results.tex" 1715377961 14386 2d13eb9da497cf746ac012f5728a8044 ""
+  "sections/Results.tex" 1715379535 14356 5b8ea9f6172c393842fbd92c68e49fee ""
   (generated)
   "report.aux"
   "report.brf"
