@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex report"] 1715378032 "report.aux" "report.bbl" "report" 1715378270 0
+["bibtex report"] 1715378393 "report.aux" "report.bbl" "report" 1715378395 0
   "./ieee_fullname.bst" 1714424736 19905 72b73f4cb1c51eaa1a7af8ecad2b6bfb ""
   "./ref_manual.bib" 1715240565 9223 033ca371b7330de738dc6251ccd22c34 ""
-  "report.aux" 1715378270 24351 a1ae5cb5ada8b033bb0126c3db511755 "pdflatex"
+  "report.aux" 1715378394 24351 b242062e76ff6fd356438b5d24782b56 "pdflatex"
   (generated)
   "report.bbl"
   "report.blg"
   (rewritten before read)
-["pdflatex"] 1715378268 "/Users/sonalimerchia/Desktop/CS598proj/report/report.tex" "report.pdf" "report" 1715378270 0
+["pdflatex"] 1715378393 "/Users/sonalimerchia/Desktop/CS598proj/report/report.tex" "report.pdf" "report" 1715378395 0
   "/Users/sonalimerchia/Desktop/CS598proj/report/report.tex" 1715376823 2065 ff4d4ab668697ac2fbac804097dd20a7 ""
   "/opt/local/etc/texmf/texmf.cnf" 1693017085 38796 a06f0de93a3269f707ca47a2c5ce78e5 ""
   "/opt/local/share/texmf-texlive/fonts/enc/dvips/base/8r.enc" 1556757300 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
@@ -161,12 +161,12 @@
   "figures/sym_fig_boxplot.png" 1715374656 25688 3bafcb69619dcf1a7a0019219988efd0 ""
   "figures/sym_fig_hist.png" 1715377482 23154 5e6494be71d4ed506c0dff09631cac42 ""
   "figures/time_fig.png" 1714414826 22793 45d524c040cd86a91ebd833c1bcc60c3 ""
-  "report.aux" 1715378270 24351 a1ae5cb5ada8b033bb0126c3db511755 "pdflatex"
-  "report.bbl" 1715378033 2422 9916688d04c26850326d7bd26c42f10e "bibtex report"
-  "report.brf" 1715378270 797 676fcae0ec13e9eca0c5a4116267931f "pdflatex"
+  "report.aux" 1715378394 24351 b242062e76ff6fd356438b5d24782b56 "pdflatex"
+  "report.bbl" 1715378393 2422 9916688d04c26850326d7bd26c42f10e "bibtex report"
+  "report.brf" 1715378394 797 676fcae0ec13e9eca0c5a4116267931f "pdflatex"
   "report.tex" 1715376823 2065 ff4d4ab668697ac2fbac804097dd20a7 ""
   "sections/Background.tex" 1715377951 8503 27fbe1055d6c15220d0f41e439f80c3c ""
-  "sections/Discussion.tex" 1715378268 2301 48ced9d4c2f76e28341d116087aa4a09 ""
+  "sections/Discussion.tex" 1715378390 2473 a05918ee0d4246da64f07422b97ab81e ""
   "sections/Introduction.tex" 1715289716 1721 d83228132fe77281e5a451a45b9fc782 ""
   "sections/Methods.tex" 1715377925 4067 18dd1f2433867450a1c209104356a8bd ""
   "sections/Proofs.tex" 1715365500 5113 8d558f59b522d60e62ab70aa39fd1d28 ""
