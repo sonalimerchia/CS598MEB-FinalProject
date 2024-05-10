@@ -14,7 +14,7 @@ directory = sys.argv[1]
 
 def plot_data(dists, labels): 
     print("Plotting...")
-    histplot = sns.histplot(x=dists, hue=labels, stat='density', bins=20, element='step')
+    histplot = sns.histplot(x=dists, hue=labels, stat='density', bins=20, element='step', common_norm=False)
     histplot.set(
         xlabel='Distance', 
         ylabel='Density',
@@ -27,14 +27,26 @@ def plot_data(dists, labels):
 
     histplot = sns.boxplot(y=dists, hue=labels, x=labels, showfliers=False)
     histplot.set(
-        xlabel='Class', 
-        ylabel='Density',
+        ylabel='Distance',
         title='Class Distance Comparision (Outliers Excluded)'
     )
     plt.legend().remove()
     print("Plotted")
     fig = histplot.get_figure()
     fig.savefig("classes_box.png") 
+    plt.clf()
+
+    num_c1 = labels.count("Class 1")
+    num_c2 = labels.count("Class 2")
+    num_c3 = labels.count("Class 3")
+    freq = np.array([num_c1, num_c2, num_c3])
+    freq = freq / freq.sum()
+
+    plt.bar(["Class 1", "Class 2", "Class 3"], freq, color=['tab:blue', 'tab:orange', 'tab:green'])
+    plt.title("Class Distribution - Simulated Data")
+    plt.ylabel("Frequency")
+    plt.ylim((0,1))
+    plt.savefig("classes_bar.png")
 
 if directory.endswith(".pkl"): 
     data = None

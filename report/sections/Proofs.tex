@@ -118,7 +118,7 @@ Let $\mathbf x = (\Delta(u) - \Delta(w))$ and $\mathbf y = (\Delta(w) - \Delta(v
 
 Since L1 is a distance metric we can write its triangularity property formally as follows: 
 
-\begin{lemma}\label{lemma:l1_triangular}
+\begin{lemma}\label{lemma:l_triangular}
     $\forall x, y \in \mathbb{R}^n, ||\mathbf x + \mathbf y||_1 \leq ||\mathbf x||_1 + ||\mathbf y||_1$
 \end{lemma}
 
@@ -127,7 +127,7 @@ Using these two equations, we can formally prove the triangularity property of Z
 \begin{align*}
     \textbf{Statement} & & \textbf{Explanation} \\
     \cline{1-3} \\
-    ||\mathbf x + \mathbf y||_1 & \leq ||\mathbf x||_1 + ||\mathbf y||_1 & \text{Lemma}~\ref{lemma:lemma:l1_triangular} \\ 
+    ||\mathbf x + \mathbf y||_1 & \leq ||\mathbf x||_1 + ||\mathbf y||_1 & \text{Lemma}~\ref{lemma:l_triangular} \\ 
     2 \times \zcnt(u, v) & \leq 2[\zcnt(u, w) + \zcnt(w, v)] & \text{Substitutions~\ref{eq:substitutions}} \\ 
     \zcnt(u, v) &\leq \zcnt(u, w) + \zcnt(w, v) & \text{Divide}
 \end{align*}

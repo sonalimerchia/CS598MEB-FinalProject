@@ -2,3 +2,13 @@
 
 Despite the basis of ZCNT being a biologically inaccurate phenomenon, the results from using this approach seem produce more biologically accurate results. Results from this paper show that biologically impossible phenomena like zero-amplification are improbable in ZCNT-Based Models. 
 
+This paper's research questions (See list~\ref{enumerate:questions}) are answered by our analyses as follows:
+
+\begin{enumerate}
+    \item The analysis presented in Section~\ref{section:comp_dist_res} shows that ZCNT closesly replicates both CN3 and CNT distance measurements. However it appears to more closely mimic CN3 distance than CNT distance. This is perhaps due to the shared symmetric nature of ZCNT and CN3 algorithms. 
+    \item The analysis presented in Section~\ref{section:behavior_res} shows that ZCNT trends lower when the corresponding CNT exists in both directions, marginally higher when unreachable in one directon, and marginally higher still if unreachable in both directions. 
+    \item The analysis presented in Section~\ref{section:simulated_reachability_res} shows that the more data points available, the more biologically feasible the results from ZCNT Large Parsimony trees will be. More loci means that the number of illegal edges and ancestor-descendant relationships will decrease. This is perhaps because more loci increases the spread of the ZCNT distance, decreasing the average cost per edge and causing a stronger preference for easily reachable profiles. More analysis could be done in this avenue to determine if this is the case. 
+    \item The analysis presented in Section~\ref{section:real_reachability_res} shows that the reachability distributions in real data are roughly the same as the reachability distributions in simulated data. The difference appears to be in the spread of the reachability with real data having a larger difference in frequency. More analysis could be done in this avenue to see if these differences are present when run on a larger collection of real data. 
+    \item The analysis presented in Section~\ref{section:symmetric_cnt_vs_zcnt_res} shows that ZCNT adheres to Median Distance and Mean Correction approximately the same amount regardless of how many values either measure deems to be infinite. 
+\end{enumerate}
+

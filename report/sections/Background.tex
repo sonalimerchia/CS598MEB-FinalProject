@@ -67,7 +67,7 @@ Both these algorithms are centered around getting the CNT distance in both direc
 
 \vspace{15pt}
 
-Both of these definitions raise interesting questions about reachability. Mean correction amplifies unreachability because if either $\cnt(u, v)$ or $\cnt(v, u)$ does not exist, the mean correction will yield $+\infty$. Meanwhile median distance amplifies reachability because even if either $\cnt(u, v)$ or $\cnt(v, u)$ does not exist, median distance will yield a noninfinite number. 
+Both of these definitions raise interesting questions about reachability. Mean correction amplifies unreachability because if either $\cnt(u, v)$ or $\cnt(v, u)$ does not exist, the Mean Correction will yield $+\infty$. Meanwhile Median Distance amplifies reachability because even if either $\cnt(u, v)$ or $\cnt(v, u)$ does not exist, Median Distance will yield a noninfinite number. 
 
 Instead of using a distance with these constraints, it is common to use another kind of intermediary. Some papers use the {\it copy number triplet\/} (CN3) problem. Which aims to pick some intermediate profile $w$ that minimizes $\cnt(w, u) + \cnt (w, v)$~\cite{triplet_algorithm}. 
 

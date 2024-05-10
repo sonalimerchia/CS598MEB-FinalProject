@@ -78,9 +78,9 @@ for cells_loci in data:
 # plt.savefig("dist_fig.png")
 
 print(np.unique(key_m))
-boxplot = sns.histplot(x=errs, hue=key_m, stat="density", element="step", bins=30)
+boxplot = sns.histplot(x=errs, hue=key_m, stat="density", element="step", bins=30, common_norm=False)
 boxplot.set(
-    xlabel='Error', 
+    xlabel='Relative Error', 
     ylabel='Density',
     title='Distance Algorithm Comparision'
 )
@@ -92,7 +92,7 @@ plt.clf()
 boxplot = sns.boxplot(y=errs, x=key_m, hue=key_m, showfliers=False)
 boxplot.set(
     xlabel='Distance Algorithm Pairing', 
-    ylabel='Error',
+    ylabel='Relative Error',
     title='Distance Algorithm Comparision (Outliers Excluded)'
 )
 # boxplot.legend().set_title("Methods")

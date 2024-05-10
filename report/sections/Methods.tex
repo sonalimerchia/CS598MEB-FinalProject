@@ -5,12 +5,12 @@ Since ZCNT is a metric that is meant to emulate CNT, the question of behavior ac
 
 \noindent The points of interest in this paper are: 
 
-\begin{enumerate}
+\begin{enumerate}\label{enumerate:questions}
     \item How well does ZCNT replicate CNT\@? How well does it replicate CN3?
     \item How does ZCNT behave when the corresponding CNT does not exist?
     \item How often do reachability issues show up in simulated data? 
     \item How often do reachability issues show up in real data? 
-    \item Does ZCNT more closesly mimic median distance or mean correction?
+    \item Does ZCNT more closesly mimic Median Distance or Mean Correction?
 \end{enumerate}
 
 \subsection{Comparing ZCNT and CNT}\label{section:comp_dist}
@@ -44,3 +44,11 @@ The same simulated data from the prior two sections was put through Lazac, a ZCN
 We define ``biologically infeasible'' transformations to be transformations wherein a copy-number goes from zero to a positive number. These can easily be determined by calculating the CNT distances. If the CNT distance between two nodes is $\infty$, the transformation is biologically infeasible. 
 
 For ancestor-descendant relationships between an ancestor $u$ and a descendant $v$, the pairing is considered illegal if and only if an edge drawn straight between them would be biologically infeasible.
+
+\subsection{Reachability in Real Data}\label{section:real_reachability}
+In order to determine how often reachability issues show up in real data, the same classification process described in Section~\ref{section:behavior} will be performed on real and simulated data. Bar graphs will be constructed to see if real data has a different class distribution than simulated data. 
+
+\subsection{ZCNT Against Symmetric CNT Distances}\label{section:symmetric_cnt_vs_zcnt}
+In order to determine ZCNT's behavior against symmetric CNT measures like Median Distance or Mean Correction, ZCNT and CNT distances will be calculated for simulated data. Then the error between ZCNT and the different symmetric CNT measurements will be calculated and compared. 
+
+In order for figures to be legible, cases where the symmetric measures equal $\infty$ will be excluded. To make sure that the data is still represented, the number of ommitted values will be included for each distance measure.

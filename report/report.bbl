@@ -10,6 +10,11 @@ Mohammed El-Kebir, Benjamin~J. Raphael, Ron Shamir, Roded Sharan, Simone Zaccari
 \newblock Complexity and algorithms for copy-number evolution problems.
 \newblock {\em Algorithms for Molecular Biology}, 12(1):13, 2017.
 
+\bibitem{real_data}
+Gunes Gundem, Peter Van~Loo, Barbara Kremeyer, Ludmil~B. Alexandrov, Jose M.~C. Tubio, Elli Papaemmanuil, Daniel~S. Brewer, Heini M.~L. Kallio, Gunilla H{\"o}gn{\"a}s, Matti Annala, Kati Kivinummi, Victoria Goody, Calli Latimer, Sarah O'Meara, Kevin~J. Dawson, William Isaacs, Michael~R. Emmert-Buck, Matti Nykter, Christopher Foster, Zsofia Kote-Jarai, Douglas Easton, Hayley~C. Whitaker, David~E. Neal, Colin~S. Cooper, Rosalind~A. Eeles, Tapio Visakorpi, Peter~J. Campbell, Ultan McDermott, David~C. Wedge, G.~Steven Bova, and ICGC Prostate~UK Group.
+\newblock The evolutionary history of lethal metastatic prostate cancer.
+\newblock {\em Nature}, 520(7547):353--357, 2015.
+
 \bibitem{hallmarks_of_cancer}
 D. Hanahan and R.A. Weinberg.
 \newblock Hallmarks of cancer: The next generation.
